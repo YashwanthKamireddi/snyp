@@ -1,0 +1,15 @@
+# render.yaml — one-click deploy config for Render (https://render.com).
+# Render reads this file and provisions a single Node web service that builds
+# the React frontend and runs the Express server (which serves both the API and
+# the built frontend on one URL).
+services:
+  - type: web
+    name: snyp
+    runtime: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
