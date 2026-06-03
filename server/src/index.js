@@ -25,8 +25,14 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 // redirect so real assets aren't treated as short keys.
 const clientDist = path.join(__dirname, "..", "..", "client", "dist");
 if (fs.existsSync(clientDist)) {
-  app.use(express.static(clientDist));
-  app.get("/", (req, res) => res.sendFile(path.join(clientDist, "index.html")));
+  // Vite content-hashes asset filenames, so they're safe to cache long-term.
+  app.use(express.static(clientDist, { index: false, maxAge: "1y" }));
+  // The HTML entry point must never be cached, so a redeploy's new asset hashes
+  // are always picked up instead of a stale page.
+  app.get("/", (req, res) => {
+    res.set("Cache-Control", "no-cache");
+    res.sendFile(path.join(clientDist, "index.html"));
+  });
 }
 
 app.use("/", redirectRouter);

@@ -497,9 +497,37 @@ a {
   }
 }
 
+/* The archive table can scroll horizontally on very small screens rather than
+   overflowing the page. */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ── Responsive ─────────────────────────────────────────────────────────── */
 
+/* Tablets and small laptops */
+@media (max-width: 760px) {
+  .page {
+    padding: 0 20px 72px;
+  }
+  .hero {
+    padding: 56px 0 32px;
+  }
+  .archive {
+    margin-top: 64px;
+  }
+}
+
+/* Phones */
 @media (max-width: 620px) {
+  body {
+    font-size: 16px;
+  }
+  .page {
+    padding: 0 16px 64px;
+  }
   .field {
     flex-direction: column;
   }
@@ -508,15 +536,48 @@ a {
   }
   .button {
     padding: 14px;
+    width: 100%;
+  }
+  .custom-prefix {
+    max-width: 42%;
+    font-size: 0.78rem;
   }
   .result {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
+  }
+  .copy {
+    width: 100%;
+    text-align: center;
+  }
+  .archive-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .table th,
+  .table td {
+    padding: 14px 8px;
   }
   .row-original {
-    max-width: 160px;
+    max-width: 36vw;
+    font-size: 0.85rem;
+  }
+  .row-clicks .count {
+    font-size: 1.25rem;
   }
   .stats {
-    gap: 16px;
+    gap: 18px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 400px) {
+  .custom-prefix {
+    display: none;
+  }
+  .row-clicks .count-label {
+    display: none;
   }
 }

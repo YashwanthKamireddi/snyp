@@ -9,6 +9,7 @@ export default function UrlList({ urls }) {
   }
 
   return (
+    <div className="table-wrap">
     <table className="table">
       <thead>
         <tr>
@@ -37,5 +38,6 @@ export default function UrlList({ urls }) {
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
