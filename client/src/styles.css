@@ -1,0 +1,522 @@
+/* styles.css
+   ───────────────────────────────────────────────────────────────────────────
+   "The Link Press" — an editorial, printed-press aesthetic.
+
+   Design language:
+     • Warm paper background with a faint grain, like newsprint stock.
+     • Ink-black type, a single sharp vermillion accent. No gradients.
+     • Fraunces (serif) for display, Spline Sans for UI, Spline Sans Mono
+       for the data that matters — links, keys, and click counts.
+     • Hairline rules and a masthead, the way a magazine is set.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --paper: #f4efe6;        /* warm bone background */
+  --paper-deep: #ece5d8;   /* slightly darker panel */
+  --ink: #1a1714;          /* near-black, warm */
+  --ink-soft: #4a443c;     /* secondary text */
+  --muted: #8a8175;        /* labels, captions */
+  --accent: #e8442a;       /* vermillion — the one sharp colour */
+  --accent-deep: #c5331c;
+  --line: #d8cfbe;         /* hairline rules */
+  --radius: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: "Spline Sans", sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* A faint paper grain laid over everything for tactile depth. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+a {
+  color: inherit;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 28px 96px;
+}
+
+/* ── Masthead ───────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0 18px;
+  border-bottom: 1.5px solid var(--ink);
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.masthead .mark {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+}
+
+.masthead .dot {
+  color: var(--accent);
+  margin-left: 2px;
+}
+
+/* ── Hero ───────────────────────────────────────────────────────────────── */
+
+.hero {
+  padding: 72px 0 40px;
+  text-align: center;
+}
+
+.wordmark {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: clamp(5rem, 18vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* The full stop is set in vermillion — a small, deliberate flourish. */
+.wordmark .stop {
+  color: var(--accent);
+}
+
+.tagline {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+  color: var(--ink-soft);
+  margin: 18px 0 0;
+}
+
+/* ── Shorten form ───────────────────────────────────────────────────────── */
+
+.shortener {
+  max-width: 680px;
+  margin: 48px auto 0;
+}
+
+.field {
+  display: flex;
+  align-items: stretch;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: #fffdf8;
+  overflow: hidden;
+  transition: box-shadow 0.18s ease;
+}
+
+.field:focus-within {
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.field .prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.95rem;
+  color: var(--muted);
+  border-right: 1.5px solid var(--line);
+  background: var(--paper-deep);
+  user-select: none;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 18px 16px;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.input::placeholder {
+  color: #b3a994;
+}
+
+.button {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-family: "Spline Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+  padding: 0 30px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--accent-deep);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+
+.error {
+  margin: 16px 2px 0;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.86rem;
+  color: var(--accent-deep);
+}
+
+.error::before {
+  content: "↳ ";
+}
+
+/* ── Custom code (optional) ─────────────────────────────────────────────── */
+
+.custom {
+  margin-top: 18px;
+}
+
+.custom-label {
+  display: block;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.custom-field {
+  display: flex;
+  align-items: stretch;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  background: #fffdf8;
+  overflow: hidden;
+  transition: border-color 0.18s ease;
+}
+
+.custom-field:focus-within {
+  border-color: var(--ink);
+}
+
+.custom-prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-right: 1.5px solid var(--line);
+  background: var(--paper-deep);
+  user-select: none;
+}
+
+.custom-field .input {
+  padding: 14px 16px;
+  font-size: 0.95rem;
+}
+
+.custom-hint {
+  margin: 8px 2px 0;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* ── Result ticket ──────────────────────────────────────────────────────── */
+
+.result {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 22px;
+  padding: 20px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius);
+  animation: rise 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.result .result-label {
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.result .short-link {
+  flex: 1;
+  min-width: 0;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--paper);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.result .short-link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 4px;
+}
+
+.copy {
+  border: 1px solid rgba(244, 239, 230, 0.35);
+  background: transparent;
+  color: var(--paper);
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.copy:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.copy.copied {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Archive (history) ──────────────────────────────────────────────────── */
+
+.archive {
+  margin-top: 88px;
+}
+
+.archive-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.archive-title {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 28px;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stats b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 16px 12px;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+.table td {
+  padding: 18px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table tr {
+  animation: rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.row-key a {
+  font-family: "Spline Sans Mono", monospace;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.row-key a:hover {
+  color: var(--accent);
+}
+
+.row-key .slash {
+  color: var(--accent);
+}
+
+.row-original {
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.row-clicks {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.row-clicks .count {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.row-clicks .count-label {
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-left: 6px;
+}
+
+.col-clicks {
+  text-align: right;
+}
+
+/* ── Empty state ────────────────────────────────────────────────────────── */
+
+.empty {
+  padding: 56px 20px;
+  text-align: center;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--radius);
+  margin-top: 24px;
+}
+
+.empty .empty-mark {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-size: 2rem;
+  color: var(--accent);
+}
+
+.empty p {
+  margin: 8px 0 0;
+  font-family: "Spline Sans Mono", monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* ── Motion ─────────────────────────────────────────────────────────────── */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered entrance for the masthead, hero, and form on first paint. */
+.reveal {
+  animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.reveal-1 { animation-delay: 0.05s; }
+.reveal-2 { animation-delay: 0.15s; }
+.reveal-3 { animation-delay: 0.27s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  .reveal,
+  .result,
+  .table tr {
+    animation: none !important;
+  }
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 620px) {
+  .field {
+    flex-direction: column;
+  }
+  .field .prefix {
+    display: none;
+  }
+  .button {
+    padding: 14px;
+  }
+  .result {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .row-original {
+    max-width: 160px;
+  }
+  .stats {
+    gap: 16px;
+  }
+}
