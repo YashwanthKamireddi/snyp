@@ -45,3 +45,15 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Snyp running at http://localhost:${PORT}`);
 });
+
+// Keep-alive: free hosts spin an instance down after a stretch of no traffic,
+// which adds a ~50s delay to the next visit. When deployed (Render sets
+// RENDER_EXTERNAL_URL), ping our own health endpoint every 10 minutes so the
+// instance stays warm and opens instantly. Does nothing in local development.
+const keepAliveUrl = process.env.RENDER_EXTERNAL_URL;
+if (keepAliveUrl) {
+  const TEN_MINUTES = 10 * 60 * 1000;
+  setInterval(() => {
+    fetch(`${keepAliveUrl}/health`).catch(() => {});
+  }, TEN_MINUTES);
+}
