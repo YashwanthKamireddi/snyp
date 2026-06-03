@@ -4,7 +4,7 @@
 # the built frontend on one URL).
 services:
   - type: web
-    name: snyp
+    name: trysnyp
     runtime: node
     plan: free
     buildCommand: npm run build
